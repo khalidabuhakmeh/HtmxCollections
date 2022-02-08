@@ -1,0 +1,34 @@
+@model HtmxCollections.Models.Shelf
+
+<input type="hidden" asp-for="@Model.Id"/>
+@foreach (var movie in Model.Movies)
+{
+    <div class="card mb-3">
+        <div class="row g-0">
+            <div class="col-auto h-auto bg-black rounded-start">
+                <i class="bi bi-three-dots-vertical text-white" 
+                   style="font-size: 1.4em; cursor: pointer"></i>
+            </div>
+            <div class="col-auto">
+                <img src="@movie.ImageUrl"
+                     style="height: 7em"
+                     class="img-fluid" alt="@movie.Title">
+            </div>
+            <div class="col">
+                <div class="card-body justify-content-start">
+                    <h5 class="card-title">
+                        @movie.Title (@movie.Year)
+                    </h5>
+                    <h6 class="card-subtitle">@movie.Genre</h6>
+                </div>
+            </div>
+        </div>
+        @{ var index = Guid.NewGuid().ToString("N"); }
+        @Html.Hidden("Movies.Index", index)
+        @Html.Hidden($"Movies[{index}].Title", movie.Title)
+        @Html.Hidden($"Movies[{index}].Genre", movie.Genre)
+        @Html.Hidden($"Movies[{index}].Year", movie.Year)
+        @Html.Hidden($"Movies[{index}].ImageUrl", movie.ImageUrl)
+    </div>
+}
+

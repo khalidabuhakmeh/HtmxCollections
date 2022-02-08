@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "libraries": [
+    {
+      "library": "htmx@1.6.1",
+      "destination": "wwwroot/lib/htmx"
+    },
+    {
+      "library": "Sortable@1.14.0",
+      "destination": "wwwroot/lib/Sortable"
+    },
+    {
+      "library": "bootstrap-icons@1.8.1",
+      "destination": "wwwroot/lib/bootstrap-icons"
+    }
+  ]
+}

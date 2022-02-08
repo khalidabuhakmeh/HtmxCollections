@@ -1,0 +1,50 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">
+        Movies
+        <span id="indicator" class="htmx-indicator">
+            <span class="spinner-grow text-warning" role="status"></span>
+            <span class="visually-hidden">Loading...</span>
+        </span>
+    </h1>
+</div>
+
+<div class="container">
+    <div class="col">
+
+        <form hx-post
+              hx-page="Index"
+              id="movies"
+              hx-trigger="end"
+              hx-swap="none"
+              hx-indicator=".htmx-indicator">
+            @await Html.PartialAsync("Shared/_Movies", Model.Shelf)
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+
+    htmx.onLoad(function() {
+        let el = document.getElementById("movies");
+        let movieList = new Sortable(el, {
+          animation: 150,
+          ghostClass: 'blue-background-class',
+          put: false
+        });
+        
+        el.addEventListener("htmx:beforeRequest", 
+            _ => movieList.options.disabled = true);
+        el.addEventListener("htmx:afterSwap", 
+            _ => movieList.options.disabled = false);
+    });    
+
+    </script>
+}
