@@ -1,4 +1,5 @@
-﻿using HtmxCollections.Models;
+﻿using Htmx;
+using HtmxCollections.Models;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -23,17 +24,55 @@ public class IndexModel : PageModel
         Shelf = await session.Query<Shelf>().FirstAsync();
     }
 
-    public async Task<IActionResult> OnPost([FromForm] Shelf shelf)
+    public async Task<IActionResult> OnPost()
     {
         await using var session = db.OpenSession();
         // overwrite existing shelf
-        session.Store(shelf);
+        session.Store(Shelf);
         await session.SaveChangesAsync();
-
-        Thread.Sleep(TimeSpan.FromSeconds(1));
-
-        return Partial("Shared/_Movies", shelf);
+        return Partial("Shared/_Movies", this);
     }
 
+    public async Task<IActionResult> OnPostAddMovie()
+    {
+        if (ModelState.IsValid)
+        {
+            await using var session = db.OpenSession();
+            // there should be a record in the database, I seeded it
+            var shelf = await session.LoadAsync<Shelf>(Shelf.Id);
+
+            if (shelf == null) {
+                return NotFound();
+            }
+            
+            Shelf = shelf;
+            Shelf.Movies.Insert(0, Movie);
+            session.Store(Shelf);
+            AddedMovieSuccessfully = true;
+            
+            await session.SaveChangesAsync();
+            
+            Response.Htmx(htmx => {
+                htmx.Retarget("#movies");
+                htmx.Trigger("movie:success");
+            });
+            
+            ModelState.Clear();
+            Movie = new Movie();
+            return Partial("Shared/_Success", this);
+        }
+        
+        Response.Htmx(htmx => {
+            htmx.Retarget("#addMovie");
+        });
+        return Partial("Shared/_Movie", this);
+    }
+    
+    [BindProperty]
     public Shelf Shelf { get; set; } = new();
+
+    [BindProperty] 
+    public Movie Movie { get; set; } = new();
+
+    public bool AddedMovieSuccessfully { get; set; }
 }

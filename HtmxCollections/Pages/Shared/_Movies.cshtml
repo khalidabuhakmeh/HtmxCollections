@@ -1,7 +1,7 @@
-@model HtmxCollections.Models.Shelf
+@model IndexModel
 
-<input type="hidden" asp-for="@Model.Id"/>
-@foreach (var movie in Model.Movies)
+<input type="hidden" asp-for="@Model.Shelf.Id"/>
+@foreach (var movie in Model.Shelf.Movies)
 {
     <div class="card mb-3">
         <div class="row g-0">
@@ -24,11 +24,11 @@
             </div>
         </div>
         @{ var index = Guid.NewGuid().ToString("N"); }
-        @Html.Hidden("Movies.Index", index)
-        @Html.Hidden($"Movies[{index}].Title", movie.Title)
-        @Html.Hidden($"Movies[{index}].Genre", movie.Genre)
-        @Html.Hidden($"Movies[{index}].Year", movie.Year)
-        @Html.Hidden($"Movies[{index}].ImageUrl", movie.ImageUrl)
+        @Html.Hidden("Shelf.Movies.Index", index)
+        @Html.Hidden($"Shelf.Movies[{index}].Title", movie.Title)
+        @Html.Hidden($"Shelf.Movies[{index}].Genre", movie.Genre)
+        @Html.Hidden($"Shelf.Movies[{index}].Year", movie.Year)
+        @Html.Hidden($"Shelf.Movies[{index}].ImageUrl", movie.ImageUrl)
     </div>
 }
 

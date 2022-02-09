@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Marten;
 
 namespace HtmxCollections.Models;
@@ -11,10 +12,10 @@ public class Shelf
 
 public class Movie
 {
-    public string Title { get; set; }
-    public int Year { get; set; }
-    public string Genre { get; set; }
-    public string ImageUrl { get; set; }
+    [Required] public string Title { get; set; }
+    [Required] public int Year { get; set; }
+    [Required] public string Genre { get; set; }
+    [Required] public string ImageUrl { get; set; }
 }
 
 public static class DatabaseHelper

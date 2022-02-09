@@ -1,0 +1,56 @@
+@model IndexModel
+
+<div id="movie-form" 
+     @if (Model.AddedMovieSuccessfully)
+     {
+         <text> hx-swap-oob="true" </text>
+     }
+     class="border rounded-2 p-4">
+    <h2 class="border-bottom mb-4">
+        Add New Movie
+        <input type="hidden" asp-for="Shelf.Id"/>
+    </h2>
+    @if (Model.AddedMovieSuccessfully)
+    {
+        <div class="alert alert-success m-2">
+            <p class="text-lg-center">
+                <i class="bi bi-ticket"></i>
+                Successfully Added New Movie
+            </p>
+        </div>
+    }
+    <div class="row">
+        <div class="mb-3">
+            <label asp-for="Movie.Title" class="form-label"></label>
+            <input class="form-control" asp-for="Movie.Title"/>
+            <span asp-validation-for="Movie.Title" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mb-3">
+            <label asp-for="Movie.ImageUrl" class="form-label"></label>
+            <input class="form-control" asp-for="Movie.ImageUrl"/>
+            <span asp-validation-for="Movie.ImageUrl" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row g-2">
+        <div class="col">
+            <div class="mb-3">
+                <label asp-for="Movie.Genre" class="form-label"></label>
+                <input class="form-control" asp-for="Movie.Genre"/>
+                <span asp-validation-for="Movie.Genre" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="mb-3">
+                <label asp-for="Movie.Year" class="form-label"></label>
+                <input class="form-control" asp-for="Movie.Year"/>
+                <span asp-validation-for="Movie.Year" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <button class="btn btn-primary" type="submit">
+        <i class="bi bi-plus"></i>
+        Add New Movie
+    </button>
+</div>

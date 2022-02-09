@@ -1,0 +1,77 @@
+{
+  "name": "hyperscript.org",
+  "description": "a small scripting language for the web",
+  "keywords": [
+    "scripting",
+    "HTML"
+  ],
+  "version": "0.9.4",
+  "homepage": "https://hyperscript.org/",
+  "bugs": {
+    "url": "https://github.com/bigskysoftware/_hyperscript/issues"
+  },
+  "license": "BSD 2-Clause",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/*"
+  ],
+  "main": "dist/_hyperscript_web.min.js",
+  "exports": {
+    ".": {
+      "import": "./dist/_hyperscript_web.modern.js",
+      "umd": "./dist/_hyperscript_web.min.js"
+    },
+    "./worker": {
+      "import": "./dist/worker.modern.js",
+      "umd": "./dist/worker.min.js"
+    },
+    "./socket": {
+      "import": "./dist/socket.modern.js",
+      "umd": "./dist/socket.min.js"
+    },
+    "./eventsource": {
+      "import": "./dist/eventsource.modern.js",
+      "umd": "./dist/eventsource.min.js"
+    },
+    "./hdb": {
+      "import": "./dist/hdb.modern.js",
+      "umd": "./dist/eventsource.min.js"
+    },
+    "./template": {
+      "import": "./dist/hdb.modern.js",
+      "umd": "./dist/eventsource.min.js"
+    }
+  },
+  "module": "./dist/_hyperscript_web.esm.js",
+  "unpkg": "dist/_hyperscript_web.min.js",
+  "bin": {
+    "_hyperscript": "src/bin/node-hyperscript.js"
+  },
+  "scripts": {
+    "test": "mocha-chrome test/index.html",
+    "www": "node scripts/www.js",
+    "dist": "npm run clear && npm run copy && npm run bundle-all",
+    "clear": "rm -rf dist/*",
+    "copy": "cp -r src/* dist/",
+    "bundle-module-plugins": "microbundle src/lib/plugin/*.js -f modern",
+    "bundle-umd-plugins": "microbundle src/web/plugin/*.js -f umd",
+    "bundle-hyperscript": "microbundle src/web/*.js -f modern,umd --name _hyperscript",
+    "bundle-all": "npm run bundle-hyperscript && npm run bundle-module-plugins && npm run bundle-umd-plugins"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bigskysoftware/_hyperscript.git"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^0.10.0",
+    "chai": "^4.2.0",
+    "eleventy-plugin-sass": "^1.0.0",
+    "fs-extra": "^9.0.0",
+    "microbundle": "^0.13.3",
+    "mocha": "^7.1.1",
+    "mocha-chrome": "^2.2.0",
+    "sass": "^1.32.8",
+    "sinon": "^9.0.2"
+  }
+}
